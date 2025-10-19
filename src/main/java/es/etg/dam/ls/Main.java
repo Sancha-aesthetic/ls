@@ -7,12 +7,13 @@ import java.io.PrintWriter;
 
 public class Main {
 
-    private static final String[] COMMAND1 = {"grep", "o"};
-    private static final String[] COMMAND2 = {"ls"};
+    private static final String[] COMMAND1 = {"ls"};
+    private static final String[] COMMAND2 = {"grep", "o"};
+    private static final String ERROR = "Error al ejecutar";
 
     public static void main(String[] args) throws Exception {
-        String ls = ejecutarComando(COMMAND2, null);
-        String salida = ejecutarComando(COMMAND1, ls);
+        String ls = ejecutarComando(COMMAND1, null);
+        String salida = ejecutarComando(COMMAND2, ls);
         System.out.println(salida);
     }
 
@@ -25,6 +26,7 @@ public class Main {
                 pw.flush();
             }
         }
+
         StringBuilder salida = new StringBuilder();
 
         try (BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
@@ -36,6 +38,6 @@ public class Main {
 
         int exitCode = p.waitFor();
 
-        return (exitCode == 0) ? salida.toString() : "Error al ejecutar: " + command;
+        return (exitCode == 0) ? salida.toString() : ERROR + command;
     }
 }
