@@ -36,6 +36,6 @@ public class Main {
 
         int exitCode = p.waitFor();
 
-        return (exitCode == 0)  salida.toString() : "Error al ejecutar: " + command;
+        return (exitCode == 0) ? salida.toString() : "Error al ejecutar: " + command;
     }
 }
