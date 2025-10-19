@@ -16,6 +16,15 @@ public class Main {
         System.out.println(salida);
     }
 
-    
-    
+    public static String ejecutarComando(String[] command, String entrada) throws Exception {
+        Process p = Runtime.getRuntime().exec(command);
+
+        // Si hay entrada, la escribimos al proceso
+        if (entrada != null) {
+            try (PrintWriter pw = new PrintWriter(new OutputStreamWriter(p.getOutputStream()))) {
+                pw.print(entrada);
+                pw.flush();
+            }
+        }
+    }
 }
