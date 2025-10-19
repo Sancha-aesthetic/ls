@@ -19,12 +19,23 @@ public class Main {
     public static String ejecutarComando(String[] command, String entrada) throws Exception {
         Process p = Runtime.getRuntime().exec(command);
 
-        // Si hay entrada, la escribimos al proceso
         if (entrada != null) {
             try (PrintWriter pw = new PrintWriter(new OutputStreamWriter(p.getOutputStream()))) {
                 pw.print(entrada);
                 pw.flush();
             }
         }
+        StringBuilder salida = new StringBuilder();
+
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                salida.append(linea).append("\n");
+            }
+        }
+
+        int exitCode = p.waitFor();
+
+        return (exitCode == 0)  salida.toString() : "Error al ejecutar: " + command;
     }
 }
